@@ -11,17 +11,13 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
-    }
-
     /**
      * @param LoginRequest $request
      * @return JsonResponse
      */
     public function login(LoginRequest $request) : JsonResponse
     {
+        dd('alallala');
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);

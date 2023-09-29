@@ -15,19 +15,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('login');
-    Route::post('register');
-    Route::get('logout');
-    Route::put('refresh');
+Route::get('login', 'App\Http\Controllers\AuthController@login');
+Route::post('register', 'App\Http\Controllers\AuthController@register');
+
+Route::get('post', 'App\Http\Controllers\PostController@index');
+
+
+Route::middleware('apu:auth')->group(function () {
+    Route::get('logout', 'App\Http\Controllers\AuthController@logout');
+    Route::put('refresh', 'App\Http\Controllers\AuthController@refresh');
+    Route::post('post', 'App\Http\Controllers\PostController@store');
+    Route::get('post/{id}', 'App\Http\Controllers\PostController@show');
+    Route::put('post/{id}', 'App\Http\Controllers\PostController@update');
+    Route::delete('post/{id}', 'App\Http\Controllers\PostController@destroy');
 });
 
-Route::controller(PostController::class)->group(function () {
-    Route::get('post', 'index');
-    Route::post('post', 'store');
-    Route::get('post/{id}', 'show');
-    Route::put('post/{id}', 'update');
-    Route::delete('post/{id}', 'destroy');
-});
 
 

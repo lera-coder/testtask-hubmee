@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        factory(User::class, 20)->create()->each(function ($s) {
-            $s->spots()->saveMany(factory(Post::class, 10)->create());
-        });
+        User::factory(20)
+            ->has(Post::factory()->count(10))
+            ->create();
     }
 }
