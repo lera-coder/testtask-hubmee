@@ -8,6 +8,7 @@ use App\Exceptions\API\PostNotFoundException;
 use App\Models\Post;
 use App\Models\User;
 use App\Modules\Interfaces\Command;
+use Throwable;
 
 class DeletePost extends Command
 {
@@ -15,6 +16,7 @@ class DeletePost extends Command
      * @param array $parameters
      * @return bool[]
      * @throws AuthenticationException
+     * @throws NoAccessToPostException
      * @throws PostNotFoundException
      */
     public function handle(array $parameters): array
@@ -24,12 +26,12 @@ class DeletePost extends Command
             $user = $parameters['user'];
             $post = Post::find($id);
 
-            if (empty($post)) {
-                throw new PostNotFoundException();
+            if (gettype($user) != 'object' && !$user instanceof User) {
+                throw new AuthenticationException();
             }
 
-            if (gettype($user) != 'object' && $user instanceof User) {
-                throw new AuthenticationException();
+            if (empty($post)) {
+                throw new PostNotFoundException();
             }
 
             if (!$user->hasAccessToPost(Post::find($id))) {

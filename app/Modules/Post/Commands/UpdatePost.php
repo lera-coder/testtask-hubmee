@@ -20,12 +20,12 @@ class UpdatePost extends Command
             $id = $parameters['id'];
             $post = Post::find($id);
 
-            if (empty($post)) {
-                throw new PostNotFoundException();
+            if (gettype($user) != 'object' && !$user instanceof User) {
+                throw new AuthenticationException();
             }
 
-            if (gettype($user) != 'object' && $user instanceof User) {
-                throw new AuthenticationException();
+            if (empty($post)) {
+                throw new PostNotFoundException();
             }
 
             if (!$user->hasAccessToPost(Post::find($id))) {

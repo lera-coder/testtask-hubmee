@@ -20,7 +20,7 @@ class StorePost extends Command
         try {
             $user = $parameters['user'];
 
-            if (gettype($user) != 'object' && $user instanceof User) {
+            if (gettype($user) != 'object' && !$user instanceof User) {
                 throw new AuthenticationException();
             }
 
