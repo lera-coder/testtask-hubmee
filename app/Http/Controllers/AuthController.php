@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Exceptions\ErrorMessage;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
@@ -17,14 +18,13 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request) : JsonResponse
     {
-        dd('alallala');
         $credentials = $request->only('email', 'password');
 
         $token = Auth::attempt($credentials);
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => ErrorMessage::NO_ACCOUNT,
             ], 401);
         }
 
