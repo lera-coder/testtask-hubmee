@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Modules\Post\Commands;
+
+use App\Exceptions\API\AuthenticationException;
+use App\Exceptions\API\NoAccessToPostException;
+use App\Exceptions\API\PostNotFoundException;
+use App\Models\Post;
+use App\Models\User;
+use App\Modules\Interfaces\Command;
+
+class DeletePost extends Command
+{
+    /**
+     * @param array $parameters
+     * @return bool[]
+     * @throws AuthenticationException
+     * @throws PostNotFoundException
+     */
+    public function handle(array $parameters): array
+    {
+        try {
+            $id = $parameters['id'];
+            $user = $parameters['user'];
+
+            if (gettype($id) != 'int' && $id < 0) {
+                throw new PostNotFoundException();
+            }
+
+            if (gettype($user) != 'object' && $user instanceof User) {
+                throw new AuthenticationException();
+            }
+
+            if (!$user->hasAccessToPost) {
+                throw new NoAccessToPostException();
+            }
+
+            $result = Post::destroy($id);
+
+            return [
+                'success' => $result === 1
+            ];
+        } catch (Throwable $e) {
+            return $this->errorHandler->handle($e);
+        }
+    }
+}

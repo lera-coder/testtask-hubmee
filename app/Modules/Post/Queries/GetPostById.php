@@ -2,23 +2,14 @@
 
 namespace App\Modules\Post\Queries;
 
-use App\Exceptions\ErrorHandler;
-use App\Exceptions\PostNotFoundException;
+use App\Exceptions\API\PostNotFoundException;
 use App\Models\Post;
-use App\Modules\Interfaces\QueryInterface;
+use App\Modules\Interfaces\Query;
 use Throwable;
 
-class GetPostById implements QueryInterface
+class GetPostById extends Query
 {
-    /**
-     * @var ErrorHandler
-     */
-    private ErrorHandler $errorHandler;
 
-    public function __construct(ErrorHandler $errorHandler)
-    {
-        $this->errorHandler = $errorHandler;
-    }
 
     /**
      * @param array $parameters

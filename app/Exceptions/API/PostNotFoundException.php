@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Exceptions;
+namespace App\Exceptions\API;
 
+use App\Exceptions\ErrorMessage;
+use App\Exceptions\Throwable;
 use Exception;
 
 class PostNotFoundException extends Exception

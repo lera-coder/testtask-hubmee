@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -46,7 +47,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return mixed
      */
-    public function getJWTIdentifier() : mixed
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
@@ -56,7 +57,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims() : array
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
@@ -67,6 +68,15 @@ class User extends Authenticatable implements JWTSubject
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    /**
+     * @param Post $post
+     * @return bool
+     */
+    public function hasAccessToPost(Post $post): bool
+    {
+        return $this->is($post->user);
     }
 
 }
