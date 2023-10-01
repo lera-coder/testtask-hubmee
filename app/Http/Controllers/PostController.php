@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Models\Post;
+use App\Modules\Post\Queries\GetAllPosts;
+use App\Modules\Post\Queries\GetPostById;
 use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
@@ -13,11 +15,20 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index() :JsonResponse
+    public function index(GetAllPosts $query): JsonResponse
     {
+        $result = $query->handle();
+
+        if (array_key_exists('error', $result)) {
+            return response()->json([
+                'status' => 'failure',
+                'message' => $result['error'],
+            ], $result['code']);
+        }
+
         return response()->json([
             'status' => 'success',
-            'posts' => Post::all(),
+            'data' => $result['posts'],
         ]);
     }
 
@@ -33,11 +44,19 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(int $id, GetPostById $query)
     {
+        $result = $query->handle(['id' => $id]);
+        if (array_key_exists('error', $result)) {
+            return response()->json([
+                'status' => 'failure',
+                'message' => $result['error'],
+            ], $result['code']);
+        }
+
         return response()->json([
             'status' => 'success',
-            'post' => $post,
+            'data' => $result['post'],
         ]);
     }
 

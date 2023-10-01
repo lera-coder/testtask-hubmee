@@ -28,7 +28,7 @@ class GetPostById implements QueryInterface
     {
         try {
             $id = $parameters['id'];
-            if (typeOf($id) != 'int' && $id < 0) {
+            if (gettype($id) != 'int' && $id < 0) {
                 throw new PostNotFoundException();
             }
             $post = Post::find($id);
@@ -37,7 +37,7 @@ class GetPostById implements QueryInterface
                 'post' => $post
             ];
         } catch (Throwable $e) {
-            return ['error' => $this->errorHandler->handle($e)];
+            return $this->errorHandler->handle($e);
         }
 
 

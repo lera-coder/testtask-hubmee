@@ -8,14 +8,20 @@ class ErrorHandler
 {
     /**
      * @param Throwable $e
-     * @return string
+     * @return array
      */
-    public function handle(Throwable $e): string
+    public function handle(Throwable $e): array
     {
-        if (get_class($e) . startsWith('App\Exceptions')) {
-            return $e->getMessage();
+        if (str_starts_with(get_class($e), 'App\Exceptions')) {
+            return [
+                'error' => $e->getMessage(),
+                'code' => $e->getCode()
+            ];
         }
-        return ErrorMessage::SOMETHING_WENT_WRONG;
+        return [
+            'error' => ErrorMessage::SOMETHING_WENT_WRONG,
+            'code' => 500
+        ];
     }
 
 }

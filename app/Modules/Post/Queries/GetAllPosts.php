@@ -36,7 +36,7 @@ class GetAllPosts implements QueryInterface
             ];
 
         } catch (Throwable $e) {
-            return ['error' => $this->errorHandler->handle($e)];
+            return $this->errorHandler->handle($e);
         }
 
     }
