@@ -25,8 +25,8 @@ class StorePost extends Command
             }
 
             $post = new Post([
-                'title' => $parameters['title'],
-                'description' => $parameters['description'],
+                'title' => $parameters['request']['title'],
+                'description' => $parameters['request']['description'],
                 'user_id' => $user->id,
             ]);
 
