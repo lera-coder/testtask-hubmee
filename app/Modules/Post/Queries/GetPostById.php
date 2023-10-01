@@ -19,10 +19,11 @@ class GetPostById extends Query
     {
         try {
             $id = $parameters['id'];
-            if (gettype($id) != 'int' && $id < 0) {
+            $post = Post::find($id);
+
+            if (empty($post)) {
                 throw new PostNotFoundException();
             }
-            $post = Post::find($id);
 
             return [
                 'post' => $post

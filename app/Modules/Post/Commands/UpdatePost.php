@@ -18,8 +18,9 @@ class UpdatePost extends Command
         try {
             $user = $parameters['user'];
             $id = $parameters['id'];
+            $post = Post::find($id);
 
-            if (gettype($id) != 'int' && $id < 0) {
+            if (empty($post)) {
                 throw new PostNotFoundException();
             }
 
@@ -27,7 +28,7 @@ class UpdatePost extends Command
                 throw new AuthenticationException();
             }
 
-            if (!$user->hasAccessToPost) {
+            if (!$user->hasAccessToPost(Post::find($id))) {
                 throw new NoAccessToPostException();
             }
 

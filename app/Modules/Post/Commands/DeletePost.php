@@ -22,8 +22,9 @@ class DeletePost extends Command
         try {
             $id = $parameters['id'];
             $user = $parameters['user'];
+            $post = Post::find($id);
 
-            if (gettype($id) != 'int' && $id < 0) {
+            if (empty($post)) {
                 throw new PostNotFoundException();
             }
 
@@ -31,7 +32,7 @@ class DeletePost extends Command
                 throw new AuthenticationException();
             }
 
-            if (!$user->hasAccessToPost) {
+            if (!$user->hasAccessToPost(Post::find($id))) {
                 throw new NoAccessToPostException();
             }
 

@@ -18,12 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'App\Http\Controllers\AuthController@login');
 Route::post('register', 'App\Http\Controllers\AuthController@register');
 
+Route::post('post', 'App\Http\Controllers\PostController@store');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('logout', 'App\Http\Controllers\AuthController@logout');
     Route::put('refresh', 'App\Http\Controllers\AuthController@refresh');
     Route::get('post', 'App\Http\Controllers\PostController@index');
-    Route::post('post', 'App\Http\Controllers\PostController@store');
     Route::get('post/{id}', 'App\Http\Controllers\PostController@show');
     Route::put('post/{id}', 'App\Http\Controllers\PostController@update');
     Route::delete('post/{id}', 'App\Http\Controllers\PostController@destroy');

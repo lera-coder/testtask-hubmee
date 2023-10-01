@@ -6,13 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePostRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return false;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -23,7 +16,7 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             'title' => 'string',
-            'description' => 'string',
+            'body' => 'string',
         ];
     }
 }

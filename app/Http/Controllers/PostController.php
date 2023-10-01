@@ -11,6 +11,7 @@ use App\Modules\Post\Commands\UpdatePost;
 use App\Modules\Post\Queries\GetAllPosts;
 use App\Modules\Post\Queries\GetPostById;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
